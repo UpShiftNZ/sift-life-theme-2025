@@ -1,0 +1,27 @@
+<script>
+    // find the sign up/login message
+    var footerElement = document.querySelector('.footer-message.ember-view');
+    if (footerElement) {
+        var statsElement = document.createElement('div');
+        statsElement.style.cssText = `border-bottom: 1px solid var(--primary-low); border-top: 1px solid var(--primary-low); padding: 20px 0px 10px 0px; margin-top: 25px;';`;
+        statsElement.innerHTML = `
+            <h3>Sift.Life Community Stats</h3>
+            <p><b>*</b> Users | <b>*</b> Total Posts | <b>*</b> Posts in the Last 7 Days | <b>*</b> Posts in the Last 30 days</p>
+        `;
+
+        fetch('https://sift.life/about.json')
+            .then(response => response.json())
+            .then(data => {
+                statsElement.innerHTML = `
+                    <h3>Sift.Life Community Stats</h3>
+                    <p><b>${data.about.stats.users_count}</b> Users | <b>${data.about.stats.posts_count}</b> Total Posts | <b>${data.about.stats.posts_7_days}</b> Posts in the Last 7 Days | <b>${data.about.stats.posts_30_days}</b> Posts in the Last 30 days</p>
+                `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            var footerElement = document.querySelector('.topic-list-bottom');
+            footerElement.appendChild(statsElement);
+    }
+</script>
